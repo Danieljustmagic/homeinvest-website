@@ -152,6 +152,28 @@
     .t-dot   { width:6px; height:6px; border-radius:50%; background:var(--red); margin:0 auto 10px; }
     .t-phone { font-size:10px; color:var(--gray-light); }
 
+    /* CONTACT */
+    .contact { background:var(--cream); padding:80px 48px; }
+    .contact-inner { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:start; }
+    .contact-left .sec-label { margin-bottom:16px; }
+    .contact-left h2 { font-family:'Crimson Pro',serif; font-weight:600; font-size:clamp(28px,3.5vw,46px); color:var(--navy); line-height:1.1; margin-bottom:20px; }
+    .contact-left h2 em { font-style:italic; color:var(--red); }
+    .contact-left .contact-lead { font-family:'Bricolage Grotesque',sans-serif; font-size:15px; color:var(--gray-med); line-height:1.75; margin-bottom:0; }
+    .contact-promise { display:flex; align-items:flex-start; gap:12px; margin-top:28px; padding-top:24px; border-top:1px solid var(--gray-pale); }
+    .contact-promise-icon { width:36px; height:36px; border-radius:50%; background:var(--red); flex-shrink:0; display:flex; align-items:center; justify-content:center; margin-top:2px; }
+    .contact-promise-icon svg { width:16px; height:16px; fill:#fff; }
+    .contact-promise-text { font-family:'Bricolage Grotesque',sans-serif; font-size:13px; color:var(--gray-med); line-height:1.65; }
+    .contact-promise-text strong { font-family:'Work Sans',sans-serif; font-weight:700; font-size:12px; color:var(--gray-dark); display:block; margin-bottom:2px; letter-spacing:.02em; }
+    .contact-form { display:flex; flex-direction:column; gap:16px; }
+    .form-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    .form-field { display:flex; flex-direction:column; gap:7px; }
+    .form-field label { font-family:'Work Sans',sans-serif; font-weight:700; font-size:11px; color:var(--gray-dark); letter-spacing:.06em; text-transform:uppercase; }
+    .form-field input, .form-field textarea { border:1px solid var(--gray-pale); background:#fff; padding:13px 15px; font-family:'Outfit',sans-serif; font-size:14px; color:var(--gray-dark); outline:none; transition:border-color .2s,box-shadow .2s; width:100%; border-radius:0; -webkit-appearance:none; }
+    .form-field input:focus, .form-field textarea:focus { border-color:var(--red); box-shadow:0 0 0 3px rgba(212,20,20,.08); background:#fff; }
+    .form-field textarea { resize:vertical; min-height:130px; }
+    .btn-submit { background:var(--red); color:#fff; border:none; font-family:'Work Sans',sans-serif; font-weight:700; font-size:14px; padding:16px 40px; cursor:pointer; transition:opacity .2s; letter-spacing:.04em; text-transform:uppercase; }
+    .btn-submit:hover { opacity:.88; }
+
     /* CTA */
     .cta-band { background:var(--red); padding:52px 48px; text-align:center; }
     .cta-band h2 { font-family:'Big Shoulders Display',sans-serif; font-size:clamp(26px,5vw,54px); color:#fff; text-transform:uppercase; letter-spacing:-.01em; margin-bottom:12px; }
@@ -171,11 +193,17 @@
     .foot-links a:hover { color:#fff; }
     .foot-copy { font-size:11px; color:#646464; margin-top:20px; }
     .foot-hr { max-width:1440px; margin:28px auto 0; border:none; border-top:1px solid #555; }
+    .foot-social { margin-top:20px; }
+    .insta-link { display:inline-flex; align-items:center; gap:10px; text-decoration:none; color:var(--gray-light); transition:color .2s; }
+    .insta-link:hover { color:#fff; }
+    .insta-icon { width:28px; height:28px; border:1.5px solid var(--gray-light); border-radius:7px; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:border-color .2s; }
+    .insta-link:hover .insta-icon { border-color:#fff; }
+    .insta-label { font-family:'Work Sans',sans-serif; font-size:12px; font-weight:600; letter-spacing:.03em; }
 
     /* ── RESPONSIVE ── */
     @media (max-width:1100px) {
       .nav-inner,.stats-inner { padding:0 32px; }
-      .services,.engagement,.biens,.apropos,.equipe,.cta-band,footer { padding-left:32px; padding-right:32px; }
+      .services,.engagement,.biens,.apropos,.equipe,.cta-band,.contact,footer { padding-left:32px; padding-right:32px; }
       .svc-grid { gap:24px; }
       .biens-grid { gap:20px; }
       .team-grid { grid-template-columns:repeat(3,1fr); }
@@ -202,7 +230,9 @@
       .stat:nth-child(2) { border-right:none; }
       .stat:nth-child(3),.stat:nth-child(4) { border-top:1px solid var(--gray-pale); }
       .stat:nth-child(4) { border-right:none; }
-      .services,.engagement,.biens,.apropos,.equipe,.cta-band,footer { padding:48px 20px; }
+      .services,.engagement,.biens,.apropos,.equipe,.cta-band,.contact,footer { padding:48px 20px; }
+      .contact-inner { grid-template-columns:1fr; gap:40px; }
+      .form-row { grid-template-columns:1fr; }
       .svc-grid { grid-template-columns:1fr; max-width:420px; margin:0 auto; }
       .biens-grid { grid-template-columns:1fr; max-width:420px; margin:0 auto; }
       .team-grid { grid-template-columns:repeat(2,1fr); }
@@ -235,7 +265,7 @@
       <a href="#services">Locations</a>
       <a href="#cta">Estimation</a>
       <a href="#equipe">Équipe</a>
-      <a href="#footer">Contact</a>
+      <a href="#contact">Contact</a>
       <a href="#cta" class="btn-nav">Estimer</a>
     </nav>
     <button class="hamburger" id="hamburger" aria-label="Menu">
@@ -247,7 +277,7 @@
     <a href="#services">Locations</a>
     <a href="#cta">Estimation</a>
     <a href="#equipe">Équipe</a>
-    <a href="#footer">Contact</a>
+    <a href="#contact">Contact</a>
     <a href="#cta" class="btn-nav">Estimer gratuitement →</a>
   </div>
 </header>
@@ -580,6 +610,47 @@
   <a href="mailto:contact@homeinvest.fr" class="btn-cta">Nous contacter →</a>
 </section>
 
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="contact-inner">
+    <div class="contact-left">
+      <span class="sec-label">NOUS ÉCRIRE</span>
+      <h2>Votre projet mérite<br>une vraie <em>conversation.</em></h2>
+      <p class="contact-lead">Chaque message est lu par un expert de l'équipe, qui vous répond personnellement. Pas de standardiste, pas de formulaire perdu. Juste des gens de terrain, à votre écoute.</p>
+      <div class="contact-promise">
+        <div class="contact-promise-icon">
+          <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 1a9 9 0 1 0 0 18A9 9 0 0 0 10 1zm-.5 12.5L5 9l1.4-1.4 3.1 3.1 5.1-5.1L16 7l-6.5 6.5z"/></svg>
+        </div>
+        <div class="contact-promise-text">
+          <strong>Réponse garantie sous 24h</strong>
+          Par l'un de nos consultants, pas un robot.
+        </div>
+      </div>
+    </div>
+    <form class="contact-form" onsubmit="handleContact(event)">
+      <div class="form-row">
+        <div class="form-field">
+          <label for="c-nom">Nom &amp; Prénom</label>
+          <input type="text" id="c-nom" name="nom" placeholder="Marie Dupont" required>
+        </div>
+        <div class="form-field">
+          <label for="c-tel">Téléphone</label>
+          <input type="tel" id="c-tel" name="tel" placeholder="06 XX XX XX XX">
+        </div>
+      </div>
+      <div class="form-field">
+        <label for="c-email">Adresse e-mail</label>
+        <input type="email" id="c-email" name="email" placeholder="marie@exemple.fr" required>
+      </div>
+      <div class="form-field">
+        <label for="c-msg">Votre projet</label>
+        <textarea id="c-msg" name="message" placeholder="Dites-nous tout — achat, vente, estimation, location… Nous sommes à l'écoute." required></textarea>
+      </div>
+      <button type="submit" class="btn-submit" id="submit-btn">Envoyer mon message →</button>
+    </form>
+  </div>
+</section>
+
 <!-- FOOTER -->
 <footer id="footer">
   <div class="foot-inner">
@@ -602,6 +673,18 @@
       <p>106 Traverse Des Fenêtres Rouges<br>13011 Marseille</p>
       <strong>06 24 56 23 36</strong>
       <p>contact@homeinvest.fr</p>
+      <div class="foot-social">
+        <a href="https://www.instagram.com/homeinvest_immobilier" target="_blank" rel="noopener" class="insta-link">
+          <span class="insta-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+              <circle cx="12" cy="12" r="4.5"/>
+              <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+            </svg>
+          </span>
+          <span class="insta-label">Suivez-nous sur Instagram</span>
+        </a>
+      </div>
     </div>
     <div>
       <div class="foot-links">
@@ -620,6 +703,26 @@
   const menu = document.getElementById('mobile-menu');
   btn.addEventListener('click', () => menu.classList.toggle('open'));
   menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => menu.classList.remove('open')));
+
+  function handleContact(e) {
+    e.preventDefault();
+    const form = e.target;
+    const submitBtn = document.getElementById('submit-btn');
+    const nom   = form.nom.value;
+    const email = form.email.value;
+    const tel   = form.tel.value || 'Non renseigné';
+    const msg   = form.message.value;
+    const body  = encodeURIComponent(`Nom : ${nom}\nTéléphone : ${tel}\n\n${msg}`);
+    const mailto = `mailto:contact@homeinvest.fr?subject=${encodeURIComponent('Demande de contact — ' + nom)}&body=${body}`;
+    window.location.href = mailto;
+    submitBtn.textContent = 'Message envoyé ✓';
+    submitBtn.style.background = '#1a7a3a';
+    setTimeout(() => {
+      submitBtn.textContent = 'Envoyer mon message →';
+      submitBtn.style.background = '';
+      form.reset();
+    }, 4000);
+  }
 </script>
 </body>
 </html>
