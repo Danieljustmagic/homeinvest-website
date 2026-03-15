@@ -731,27 +731,93 @@ y += BIENS_H
 # ══════════════════════════════════════════════════════════
 #  6. À PROPOS
 # ══════════════════════════════════════════════════════════
-APROPS_H = 440
+APROPS_H = 480
 draw.rectangle([0, y, W, y+APROPS_H], fill=WHITE)
 
-# ── Left: circular portrait (Scale with Ouss style) ──
-ccx, ccy = 260, y+220
-cr = 125
+# ── Left: placeholder vidéo vertical (9:16, style short podcast) ──
+VID_W = 185
+VID_H = int(VID_W * 16 / 9)   # ≈ 329px
+vcx   = 270
+vx1   = vcx - VID_W // 2
+vy1   = y + 44
+vx2   = vx1 + VID_W
+vy2   = vy1 + VID_H
 
-# Outer dashed ring
-dashed_circle(ccx, ccy, cr+18, GRAY_LIGHT, width=2, dash=6, gap=5)
-# Circle fill
-draw.ellipse([ccx-cr, ccy-cr, ccx+cr, ccy+cr], fill=CREAM)
-draw.ellipse([ccx-cr, ccy-cr, ccx+cr, ccy+cr], outline=GRAY_PALE, width=2)
-# Initials
-iw = tlen("LS", BIG(75))
-draw.text((ccx-iw//2, ccy-52), "LS", font=BIG(75), fill=GRAY_DARK)
+# Ombre
+draw.rounded_rectangle([vx1+5, vy1+5, vx2+5, vy2+5], radius=18, fill=(200, 196, 190))
+# Fond sombre studio (dégradé bas→haut)
+for gi in range(VID_H):
+    t  = gi / VID_H
+    rc = int(22 + 20 * t)
+    gc = int(18 + 16 * t)
+    bc = int(16 + 14 * t)
+    draw.line([(vx1, vy1 + gi), (vx2, vy1 + gi)], fill=(rc, gc, bc))
+# Contour arrondi (par-dessus le dégradé)
+draw.rounded_rectangle([vx1, vy1, vx2, vy2], radius=18, outline=(55, 48, 42), width=2)
 
-# Name badge strip (Scale with Ouss style)
-badge_str = "LOÏC SALEBERT · DIRECTEUR"
-bsw = tlen(badge_str, WRKB(11)) + 28
-draw.rectangle([ccx-bsw//2, ccy+cr-10, ccx+bsw//2, ccy+cr+22], fill=GRAY_DARK)
-draw.text((ccx - tlen(badge_str, WRKB(11))//2, ccy+cr-4), badge_str, font=WRKB(11), fill=WHITE)
+# Halo lumière chaude de studio (spot derrière le sujet)
+for hr in range(55, 0, -1):
+    alpha = int(28 * (1 - hr / 55))
+    draw.ellipse([vcx - hr, vy1 + VID_H // 3 - hr // 2,
+                  vcx + hr, vy1 + VID_H // 3 + hr // 2],
+                 outline=(180 + alpha, 140 + alpha, 80 + alpha), width=1)
+
+# Silhouette podcasteur — buste + tête
+sil_cx  = vcx - 4
+bust_y  = vy2 - 30   # bas du buste
+neck_y  = vy1 + VID_H * 55 // 100
+head_cy = neck_y - 32
+# Épaules/buste
+draw.polygon([
+    (sil_cx - 62, vy2 + 2),
+    (sil_cx + 62, vy2 + 2),
+    (sil_cx + 44, neck_y + 12),
+    (sil_cx - 44, neck_y + 12),
+], fill=(38, 32, 28))
+# Cou
+draw.rectangle([sil_cx - 13, neck_y, sil_cx + 13, neck_y + 14], fill=(38, 32, 28))
+# Tête
+draw.ellipse([sil_cx - 28, head_cy - 30, sil_cx + 28, head_cy + 30], fill=(38, 32, 28))
+
+# Micro de studio (bras articulé + capsule)
+mic_arm_x = sil_cx + 55
+mic_arm_y = vy1 + 22
+mic_cap_y = head_cy - 16
+draw.line([(vx2 - 10, mic_arm_y), (mic_arm_x, mic_arm_y)], fill=(72, 64, 55), width=3)
+draw.line([(mic_arm_x, mic_arm_y), (mic_arm_x, mic_cap_y + 20)], fill=(72, 64, 55), width=3)
+draw.rounded_rectangle([mic_arm_x - 11, mic_cap_y, mic_arm_x + 11, mic_cap_y + 28],
+                        radius=8, fill=(88, 78, 66))
+draw.ellipse([mic_arm_x - 7, mic_cap_y - 8, mic_arm_x + 7, mic_cap_y + 2],
+             fill=(88, 78, 66))
+
+# Bouton play (cercle + triangle)
+play_cy = vy1 + VID_H // 2
+draw.ellipse([vcx - 26, play_cy - 26, vcx + 26, play_cy + 26], fill=(255, 255, 255))
+draw.ellipse([vcx - 22, play_cy - 22, vcx + 22, play_cy + 22], fill=(240, 236, 230))
+draw.polygon([
+    (vcx - 7, play_cy - 13),
+    (vcx - 7, play_cy + 13),
+    (vcx + 16, play_cy),
+], fill=GRAY_DARK)
+
+# Badge durée "0:58" (coin haut droit)
+dur_txt = "0:58"
+dur_w   = tlen(dur_txt, WRKB(11)) + 14
+draw.rounded_rectangle([vx2 - dur_w - 8, vy1 + 10, vx2 - 8, vy1 + 28],
+                        radius=5, fill=(12, 10, 8))
+draw.text((vx2 - dur_w - 1, vy1 + 13), dur_txt, font=WRKB(11), fill=WHITE)
+
+# Barre de progression rouge (35% lu)
+draw.rectangle([vx1, vy2 - 4, vx1 + int(VID_W * 0.35), vy2 - 1], fill=RED)
+draw.rectangle([vx1 + int(VID_W * 0.35), vy2 - 4, vx2, vy2 - 1], fill=(70, 60, 52))
+
+# Labels sous la vidéo
+vid_lbl = "Son engagement →"
+vlw = tlen(vid_lbl, WRKB(12))
+draw.text((vcx - vlw // 2, vy2 + 14), vid_lbl, font=WRKB(12), fill=RED)
+name_sub = "Loïc Salebert · Directeur"
+nsw = tlen(name_sub, OUTR(11))
+draw.text((vcx - nsw // 2, vy2 + 34), name_sub, font=OUTR(11), fill=GRAY_MED)
 
 # ── Right: text ──
 rx_ = 560
