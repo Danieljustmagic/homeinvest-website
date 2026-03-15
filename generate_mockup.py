@@ -373,7 +373,7 @@ _lw = tlen("NOS SERVICES", WRKB(12)) + 24
 draw.rectangle([(W-_lw)//2, y+36, (W+_lw)//2, y+62], fill=RED)
 draw.text(((W - tlen("NOS SERVICES", WRKB(12)))//2, y+44),
           "NOS SERVICES", font=WRKB(12), fill=WHITE)
-cx_text("Ce que nous faisons pour vous", CRIB(44), y+70, NAVY)
+cx_text("Ce que nous faisons pour vous avec passion", CRIB(44), y+70, NAVY)
 
 # Mise en page cartes
 CARD_W = 400
@@ -406,13 +406,6 @@ for i, (num, title, desc, tags) in enumerate(svc_data):
     # Bordure fine grise
     draw.rectangle([cx_c, cy_top, cx_c+CARD_W, cy_bot], outline=GRAY_PALE, width=1)
 
-    # Numéro fantôme en fond (Scale with Ouss DNA)
-    _nf = BIG(130)
-    _nw = tlen(num, _nf)
-    _ghost_img = Image.new("RGBA", (_nw+10, 135), (0,0,0,0))
-    ImageDraw.Draw(_ghost_img).text((4, 0), num, font=_nf, fill=(235,230,224,255))
-    img.paste(_ghost_img, (cx_c + CARD_W - _nw - 14, cy_bot - 130), _ghost_img)
-    draw = ImageDraw.Draw(img)
 
     # ── Icône centrée (outline rouge, style épuré) ──
     icx  = cx_c + CARD_W // 2   # centre horizontal de la carte
@@ -466,14 +459,6 @@ for i, (num, title, desc, tags) in enumerate(svc_data):
     wrap_text(desc, OUTR(14), CARD_W-56,
               draw_at=True, x=cx_c+28, y=title_y+42, color=GRAY_MED, line_h=23)
 
-    # ── Tags en bas ──
-    _ty = cy_bot - (len(tags) * 28 + 18)
-    for tag in tags:
-        _tw2 = tlen(tag, WRKR(12)) + 22
-        draw.rounded_rectangle([cx_c+28, _ty, cx_c+28+_tw2, _ty+22],
-                                radius=11, outline=RED, width=1)
-        draw.text((cx_c+39, _ty+4), tag, font=WRKR(12), fill=NAVY)
-        _ty += 28
 
 y += SERV_H
 
