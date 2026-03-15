@@ -3,14 +3,623 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HomeInvest Immobilier — Maquette</title>
+  <title>HomeInvest Immobilier — Marseille</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700&family=Crimson+Pro:ital,wght@0,600;1,400;1,600&family=Outfit:wght@400;700&family=Work+Sans:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: #F8F5F0; display: flex; justify-content: center; padding: 40px 20px; }
-    img { max-width: 1440px; width: 100%; display: block; box-shadow: 0 8px 40px rgba(0,0,0,0.12); }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --red: #D41414; --navy: #16223E; --gray-dark: #404040;
+      --gray-med: #787878; --gray-light: #B0B0B0; --gray-pale: #DCDAD7; --cream: #F8F5F0;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Outfit', sans-serif; color: var(--gray-dark); overflow-x: hidden; }
+    img { max-width: 100%; height: auto; display: block; }
+
+    /* NAVBAR */
+    .navbar { position: sticky; top: 0; z-index: 100; background: #fff; border-bottom: 1px solid var(--gray-pale); box-shadow: 0 2px 12px rgba(0,0,0,.06); }
+    .nav-inner { max-width: 1440px; margin: 0 auto; padding: 0 48px; height: 80px; display: flex; align-items: center; justify-content: space-between; }
+    .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .logo-mark { position: relative; width: 46px; height: 44px; flex-shrink: 0; }
+    .logo-mark span { position: absolute; display: block; }
+    .lh1 { left:0; top:4px; width:9px; height:36px; background:var(--red); }
+    .lh2 { left:20px; top:4px; width:9px; height:36px; background:var(--red); }
+    .lhb { left:9px; top:19px; width:11px; height:8px; background:var(--red); }
+    .li  { left:35px; top:4px; width:7px; height:36px; background:var(--gray-light); }
+    .logo-text { display:flex; flex-direction:column; line-height:1.2; }
+    .logo-name { font-family:'Work Sans',sans-serif; font-weight:700; font-size:15px; color:var(--gray-dark); letter-spacing:.02em; }
+    .logo-sub  { font-family:'Work Sans',sans-serif; font-weight:700; font-size:10px; color:var(--red); letter-spacing:.06em; }
+    nav { display:flex; align-items:center; gap:36px; }
+    nav a { font-family:'Work Sans',sans-serif; font-size:14px; color:var(--gray-dark); text-decoration:none; transition:color .2s; }
+    nav a:hover { color:var(--red); }
+    .btn-nav { background:var(--red); color:#fff !important; font-weight:700; padding:10px 22px; }
+    .btn-nav:hover { opacity:.88; }
+    .hamburger { display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:4px; }
+    .hamburger span { display:block; width:24px; height:2px; background:var(--gray-dark); transition:all .3s; }
+    .mobile-menu { display:none; position:absolute; top:80px; left:0; right:0; background:#fff; border-bottom:1px solid var(--gray-pale); padding:20px 24px; flex-direction:column; z-index:99; box-shadow:0 8px 24px rgba(0,0,0,.1); }
+    .mobile-menu.open { display:flex; }
+    .mobile-menu a { font-family:'Work Sans',sans-serif; font-size:16px; color:var(--gray-dark); text-decoration:none; padding:14px 0; border-bottom:1px solid var(--gray-pale); }
+    .mobile-menu a:last-child { border-bottom:none; margin-top:8px; text-align:center; }
+
+    /* HERO */
+    .hero { position:relative; height:680px; overflow:hidden; }
+    .hero-bg { position:absolute; inset:0; width:100%; height:100%; }
+    .hero-overlay { position:absolute; inset:0; background:rgba(15,12,10,.68); }
+    .hero-content { position:relative; z-index:2; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:0 24px; }
+    .badge { display:inline-block; background:var(--red); color:#fff; font-family:'Work Sans',sans-serif; font-weight:700; font-size:11px; letter-spacing:.1em; padding:6px 16px; margin-bottom:28px; }
+    .hero h1 { font-family:'Big Shoulders Display',sans-serif; font-weight:800; font-size:clamp(52px,8vw,95px); color:#fff; line-height:1; text-transform:uppercase; }
+    .hero h1 span { color:var(--red); }
+    .hero-sub { font-family:'Crimson Pro',serif; font-style:italic; font-size:clamp(16px,2vw,22px); color:rgba(215,205,195,1); margin-top:16px; }
+    .hero-rule { width:120px; height:2px; background:var(--red); margin:20px auto; }
+    .hero-btns { display:flex; gap:20px; flex-wrap:wrap; justify-content:center; }
+    .btn-prim { display:inline-block; background:var(--red); color:#fff; font-family:'Work Sans',sans-serif; font-weight:700; font-size:15px; padding:14px 32px; text-decoration:none; border:2px solid var(--red); transition:opacity .2s; }
+    .btn-prim:hover { opacity:.88; }
+    .btn-outl { display:inline-block; background:transparent; color:#fff; font-family:'Work Sans',sans-serif; font-weight:700; font-size:15px; padding:14px 32px; text-decoration:none; border:2px solid #fff; transition:background .2s,color .2s; }
+    .btn-outl:hover { background:#fff; color:var(--gray-dark); }
+
+    /* STATS */
+    .stats { background:#fff; border-bottom:1px solid var(--gray-pale); }
+    .stats-inner { max-width:1440px; margin:0 auto; display:grid; grid-template-columns:repeat(4,1fr); padding:0 48px; }
+    .stat { padding:28px 0; text-align:center; border-right:1px solid var(--gray-pale); }
+    .stat:last-child { border-right:none; }
+    .stat-n { font-family:'Big Shoulders Display',sans-serif; font-size:38px; color:var(--red); display:block; line-height:1; }
+    .stat-l { font-size:13px; color:var(--gray-med); margin-top:8px; display:block; }
+
+    /* SERVICES */
+    .services { background:#FAF8F5; border-bottom:1px solid var(--gray-pale); padding:64px 48px; }
+    .sec-inner { max-width:1440px; margin:0 auto; }
+    .sec-label { display:inline-block; background:var(--red); color:#fff; font-family:'Work Sans',sans-serif; font-weight:700; font-size:11px; letter-spacing:.1em; padding:6px 14px; margin-bottom:14px; }
+    .sec-title { font-family:'Crimson Pro',serif; font-weight:600; font-size:clamp(26px,3vw,44px); color:var(--navy); margin-bottom:48px; text-align:center; }
+    .svc-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:40px; }
+    .svc-card { background:#fff; border:1px solid var(--gray-pale); box-shadow:5px 5px 0 var(--gray-pale); padding-bottom:32px; }
+    .svc-card::before { content:''; display:block; height:6px; background:var(--red); }
+    .svc-illus { display:flex; justify-content:center; align-items:center; padding:24px 0 12px; height:130px; }
+    .svc-card h3 { font-family:'Bricolage Grotesque',sans-serif; font-weight:700; font-size:22px; color:var(--navy); padding:0 28px; margin-bottom:4px; }
+    .svc-card h3::after { content:''; display:block; height:3px; background:var(--red); margin-top:8px; }
+    .svc-card p { font-family:'Bricolage Grotesque',sans-serif; font-size:15px; color:var(--gray-med); padding:14px 28px 0; line-height:1.65; }
+
+    /* ENGAGEMENT */
+    .engagement { background:#F8F4EE; border-bottom:1px solid var(--gray-pale); padding:72px 48px; }
+    .eng-inner { max-width:1440px; margin:0 auto; display:grid; grid-template-columns:1fr 1px 1fr; gap:0 80px; align-items:start; }
+    .eng-divider { background:var(--gray-pale); }
+    .eng-left h2 { font-family:'Crimson Pro',serif; font-weight:600; font-size:clamp(28px,3.5vw,48px); color:var(--gray-dark); line-height:1.15; margin:16px 0 0; }
+    .eng-left h2 span { color:var(--red); }
+    .eng-rule { width:320px; max-width:100%; height:2px; background:var(--red); margin:20px 0; }
+    .eng-left p { font-family:'Bricolage Grotesque',sans-serif; font-size:15px; color:var(--gray-med); line-height:1.7; margin-bottom:20px; }
+    .eng-quote { font-family:'Crimson Pro',serif; font-style:italic; font-size:17px; color:var(--gray-dark); line-height:1.5; margin-bottom:8px; }
+    .eng-attr { font-family:'Work Sans',sans-serif; font-weight:700; font-size:12px; color:var(--red); letter-spacing:.05em; }
+    .eng-right { display:flex; flex-direction:column; align-items:center; text-align:center; padding-left:40px; }
+    .eng-right img { width:260px; max-width:100%; margin-bottom:16px; }
+    .eng-tag { font-family:'Crimson Pro',serif; font-style:italic; font-size:15px; color:var(--gray-med); margin-bottom:12px; }
+    .eng-right p { font-family:'Outfit',sans-serif; font-size:13px; color:var(--gray-med); line-height:1.6; margin-bottom:20px; max-width:340px; }
+    .btn-pill { display:inline-block; border:2px solid var(--red); border-radius:20px; padding:8px 20px; font-family:'Work Sans',sans-serif; font-weight:700; font-size:12px; color:var(--red); text-decoration:none; transition:background .2s,color .2s; }
+    .btn-pill:hover { background:var(--red); color:#fff; }
+
+    /* BIENS */
+    .biens { background:var(--cream); padding:72px 48px; }
+    .biens-inner { max-width:1440px; margin:0 auto; }
+    .biens-hd { display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:48px; flex-wrap:wrap; gap:12px; }
+    .biens-hd h2 { font-family:'Crimson Pro',serif; font-weight:600; font-size:clamp(26px,3.5vw,44px); color:var(--gray-dark); }
+    .voir-tout { font-family:'Work Sans',sans-serif; font-weight:700; font-size:13px; color:var(--red); text-decoration:none; white-space:nowrap; }
+    .biens-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:32px; }
+    .bien-card { background:#fff; box-shadow:5px 5px 0 #D6D2CB; }
+    .bien-photo { width:100%; height:210px; position:relative; overflow:hidden; }
+    .bien-photo svg { width:100%; height:100%; }
+    .bien-badge { position:absolute; top:16px; left:16px; padding:4px 12px; font-family:'Work Sans',sans-serif; font-weight:700; font-size:11px; color:#fff; }
+    .bien-body { padding:20px; }
+    .bien-title { font-family:'Crimson Pro',serif; font-weight:600; font-size:22px; color:var(--gray-dark); margin-bottom:6px; }
+    .bien-loc { font-size:13px; color:var(--gray-med); margin-bottom:14px; }
+    .bien-hr { border:none; border-top:1px solid var(--gray-pale); margin-bottom:14px; }
+    .bien-price { font-family:'Big Shoulders Display',sans-serif; font-size:28px; color:var(--red); margin-bottom:10px; line-height:1; }
+    .bien-det { font-size:13px; color:var(--gray-med); }
+
+    /* À PROPOS */
+    .apropos { background:#fff; padding:72px 48px; }
+    .apropos-inner { max-width:1440px; margin:0 auto; display:grid; grid-template-columns:auto 1fr; gap:80px; align-items:start; }
+    .vid-col { width:185px; flex-shrink:0; }
+    .vid-wrap { width:185px; height:329px; border-radius:18px; overflow:hidden; position:relative; box-shadow:5px 5px 0 #C8C4BE; background:linear-gradient(to bottom,#161210,#2A2218); cursor:pointer; }
+    .vid-halo { position:absolute; top:28%; left:50%; transform:translate(-50%,-50%); width:130px; height:90px; background:radial-gradient(ellipse,rgba(200,160,60,.35) 0%,transparent 70%); border-radius:50%; }
+    .vid-sil { position:absolute; bottom:0; left:50%; transform:translateX(-50%); width:130px; }
+    .vid-play { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:52px; height:52px; background:rgba(240,236,230,.95); border-radius:50%; display:flex; align-items:center; justify-content:center; }
+    .vid-play::after { content:''; width:0; height:0; border-style:solid; border-width:10px 0 10px 18px; border-color:transparent transparent transparent var(--gray-dark); margin-left:4px; }
+    .vid-dur { position:absolute; top:10px; right:10px; background:rgba(12,10,8,.9); color:#fff; font-family:'Work Sans',sans-serif; font-weight:700; font-size:10px; padding:3px 8px; border-radius:4px; }
+    .vid-prog { position:absolute; bottom:0; left:0; right:0; height:4px; background:rgba(70,60,52,.8); }
+    .vid-prog-fill { width:35%; height:100%; background:var(--red); }
+    .vid-meta { margin-top:14px; text-align:center; }
+    .vid-lbl { font-family:'Work Sans',sans-serif; font-weight:700; font-size:12px; color:var(--red); display:block; margin-bottom:4px; }
+    .vid-name { font-size:11px; color:var(--gray-med); }
+    .ap-text .sec-label { margin-bottom:14px; }
+    .ap-text h2 { font-family:'Crimson Pro',serif; font-weight:600; font-size:clamp(30px,4vw,50px); color:var(--gray-dark); line-height:1.1; margin-bottom:28px; }
+    .ap-lead { font-family:'Bricolage Grotesque',sans-serif; font-size:16px; color:var(--gray-med); margin-bottom:4px; }
+    .ap-hl { font-family:'Bricolage Grotesque',sans-serif; font-size:16px; color:var(--gray-dark); text-decoration:underline; text-decoration-color:var(--red); text-underline-offset:4px; text-decoration-thickness:3px; }
+    .ap-body { font-family:'Bricolage Grotesque',sans-serif; font-size:16px; color:var(--gray-med); line-height:1.7; margin-top:20px; }
+    .tags { display:flex; flex-wrap:wrap; gap:12px; margin-top:32px; }
+    .tag { border:1px solid var(--gray-light); border-radius:20px; padding:6px 18px; font-family:'Work Sans',sans-serif; font-weight:700; font-size:12px; color:var(--gray-dark); }
+
+    /* ÉQUIPE */
+    .equipe { background:var(--cream); padding:72px 48px; }
+    .eq-inner { max-width:1440px; margin:0 auto; }
+    .eq-hd { text-align:center; margin-bottom:48px; }
+    .eq-hd h2 { font-family:'Crimson Pro',serif; font-weight:600; font-size:clamp(26px,3.5vw,40px); color:var(--gray-dark); margin-top:12px; }
+    .team-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:20px; }
+    .team-card { background:#fff; padding:28px 16px 24px; text-align:center; }
+    .avatar { width:72px; height:72px; border-radius:50%; margin:0 auto 16px; position:relative; overflow:hidden; }
+    .avatar::before { content:''; position:absolute; top:13px; left:50%; transform:translateX(-50%); width:24px; height:24px; border-radius:50%; background:rgba(255,255,255,.45); }
+    .avatar::after  { content:''; position:absolute; bottom:-10px; left:50%; transform:translateX(-50%); width:56px; height:42px; border-radius:50%; background:rgba(255,255,255,.45); }
+    .t-name  { font-family:'Outfit',sans-serif; font-weight:700; font-size:13px; color:var(--gray-dark); margin-bottom:4px; }
+    .t-role  { font-size:12px; color:var(--gray-med); margin-bottom:12px; }
+    .t-dot   { width:6px; height:6px; border-radius:50%; background:var(--red); margin:0 auto 10px; }
+    .t-phone { font-size:10px; color:var(--gray-light); }
+
+    /* CTA */
+    .cta-band { background:var(--red); padding:52px 48px; text-align:center; }
+    .cta-band h2 { font-family:'Big Shoulders Display',sans-serif; font-size:clamp(26px,5vw,54px); color:#fff; text-transform:uppercase; letter-spacing:-.01em; margin-bottom:12px; }
+    .cta-band p  { font-family:'Crimson Pro',serif; font-style:italic; font-size:clamp(15px,2vw,20px); color:rgba(255,205,205,1); margin-bottom:28px; }
+    .btn-cta { display:inline-block; background:#fff; color:var(--red); font-family:'Work Sans',sans-serif; font-weight:700; font-size:15px; padding:14px 40px; text-decoration:none; transition:opacity .2s; }
+    .btn-cta:hover { opacity:.9; }
+
+    /* FOOTER */
+    footer { background:var(--gray-dark); padding:48px; }
+    .foot-inner { max-width:1440px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr 1fr; gap:48px; }
+    .foot-logo { display:flex; align-items:center; gap:10px; margin-bottom:12px; }
+    .foot-tagline { font-family:'Crimson Pro',serif; font-style:italic; font-size:14px; color:var(--gray-light); }
+    .foot-contact p { font-size:13px; color:var(--gray-light); line-height:1.9; }
+    .foot-contact strong { font-family:'Work Sans',sans-serif; font-weight:700; font-size:17px; color:#fff; display:block; margin:6px 0; }
+    .foot-links { display:flex; flex-direction:column; gap:10px; }
+    .foot-links a { font-size:12px; color:var(--gray-light); text-decoration:none; }
+    .foot-links a:hover { color:#fff; }
+    .foot-copy { font-size:11px; color:#646464; margin-top:20px; }
+    .foot-hr { max-width:1440px; margin:28px auto 0; border:none; border-top:1px solid #555; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width:1100px) {
+      .nav-inner,.stats-inner { padding:0 32px; }
+      .services,.engagement,.biens,.apropos,.equipe,.cta-band,footer { padding-left:32px; padding-right:32px; }
+      .svc-grid { gap:24px; }
+      .biens-grid { gap:20px; }
+      .team-grid { grid-template-columns:repeat(3,1fr); }
+      .eng-inner { gap:0 48px; }
+    }
+    @media (max-width:900px) {
+      .svc-grid { grid-template-columns:1fr 1fr; }
+      .biens-grid { grid-template-columns:1fr 1fr; }
+      .eng-inner { grid-template-columns:1fr; gap:40px; }
+      .eng-divider { display:none; }
+      .eng-right { padding-left:0; }
+      .apropos-inner { grid-template-columns:1fr; }
+      .vid-col { width:100%; display:flex; flex-direction:column; align-items:center; }
+      .foot-inner { grid-template-columns:1fr 1fr; }
+    }
+    @media (max-width:768px) {
+      .nav-inner { padding:0 20px; }
+      nav { display:none; }
+      .hamburger { display:flex; }
+      .hero { height:520px; }
+      .hero-btns { flex-direction:column; align-items:center; }
+      .btn-prim,.btn-outl { width:240px; text-align:center; }
+      .stats-inner { grid-template-columns:repeat(2,1fr); padding:0 20px; }
+      .stat:nth-child(2) { border-right:none; }
+      .stat:nth-child(3),.stat:nth-child(4) { border-top:1px solid var(--gray-pale); }
+      .stat:nth-child(4) { border-right:none; }
+      .services,.engagement,.biens,.apropos,.equipe,.cta-band,footer { padding:48px 20px; }
+      .svc-grid { grid-template-columns:1fr; max-width:420px; margin:0 auto; }
+      .biens-grid { grid-template-columns:1fr; max-width:420px; margin:0 auto; }
+      .team-grid { grid-template-columns:repeat(2,1fr); }
+      .foot-inner { grid-template-columns:1fr; gap:28px; }
+    }
+    @media (max-width:480px) {
+      .hero { height:460px; }
+      .team-grid { grid-template-columns:repeat(2,1fr); gap:12px; }
+      .team-card { padding:20px 10px 18px; }
+    }
   </style>
 </head>
 <body>
-  <img src="homeinvest_mockup_v1.png" alt="Maquette HomeInvest Immobilier">
+
+<!-- NAVBAR -->
+<header class="navbar">
+  <div class="nav-inner">
+    <a href="#" class="logo">
+      <div class="logo-mark">
+        <span class="lh1"></span><span class="lh2"></span>
+        <span class="lhb"></span><span class="li"></span>
+      </div>
+      <div class="logo-text">
+        <span class="logo-name">HOMEINVEST</span>
+        <span class="logo-sub">IMMOBILIER</span>
+      </div>
+    </a>
+    <nav>
+      <a href="#services">Ventes</a>
+      <a href="#services">Locations</a>
+      <a href="#cta">Estimation</a>
+      <a href="#equipe">Équipe</a>
+      <a href="#footer">Contact</a>
+      <a href="#cta" class="btn-nav">Estimer</a>
+    </nav>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="#services">Ventes</a>
+    <a href="#services">Locations</a>
+    <a href="#cta">Estimation</a>
+    <a href="#equipe">Équipe</a>
+    <a href="#footer">Contact</a>
+    <a href="#cta" class="btn-nav">Estimer gratuitement →</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <svg class="hero-bg" viewBox="0 0 1440 680" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#4870C6"/><stop offset="100%" stop-color="#C8965A"/></linearGradient>
+      <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3070C0"/><stop offset="100%" stop-color="#4484B4"/></linearGradient>
+    </defs>
+    <rect width="1440" height="680" fill="url(#sky)"/>
+    <rect x="0" y="415" width="1440" height="265" fill="url(#sea)"/>
+    <polygon points="600,415 660,397 730,387 800,400 870,393 1200,407 1440,403 1440,415" fill="#76624E"/>
+    <polygon points="820,415 870,373 920,335 965,290 980,270 1010,267 1040,275 1060,305 1105,345 1155,377 1210,400 1300,410 1440,415" fill="#5A4A3A"/>
+    <rect x="955" y="209" width="110" height="58" fill="#F8F1DE"/>
+    <rect x="933" y="247" width="22" height="20" fill="#EBE2D0"/><rect x="1065" y="247" width="22" height="20" fill="#EBE2D0"/>
+    <polygon points="951,209 1069,209 1010,195" fill="#D2C3AA"/>
+    <rect x="978" y="223" width="18" height="24" fill="#7B98BC" rx="9" ry="9"/>
+    <rect x="1001" y="223" width="18" height="24" fill="#7B98BC" rx="9" ry="9"/>
+    <rect x="1024" y="223" width="18" height="24" fill="#7B98BC" rx="9" ry="9"/>
+    <rect x="998" y="91" width="24" height="118" fill="#FDF6E6"/>
+    <rect x="994" y="83" width="32" height="10" fill="#DCC9B4"/>
+    <rect x="1003" y="101" width="14" height="17" fill="#7691B6" rx="7" ry="7"/>
+    <rect x="1003" y="131" width="14" height="17" fill="#7691B6" rx="7" ry="7"/>
+    <rect x="1003" y="161" width="14" height="17" fill="#7691B6" rx="7" ry="7"/>
+    <ellipse cx="1010" cy="75" rx="16" ry="16" fill="#DAB220"/>
+    <ellipse cx="1010" cy="66" rx="8" ry="10" fill="#E4BC2A"/>
+    <line x1="1010" y1="36" x2="1010" y2="55" stroke="#E1B926" stroke-width="4"/>
+    <line x1="1000" y1="45" x2="1020" y2="45" stroke="#E1B926" stroke-width="3"/>
+    <circle cx="1010" cy="34" r="6" fill="#E1B926"/>
+    <rect x="0" y="415" width="810" height="17" fill="#6C5C4A"/>
+    <rect x="0"   y="215" width="90"  height="200" fill="#CAA86E"/>
+    <rect x="90"  y="247" width="74"  height="168" fill="#DCBC7C"/>
+    <rect x="164" y="200" width="96"  height="215" fill="#C49C62"/>
+    <rect x="260" y="235" width="78"  height="180" fill="#E6C884"/>
+    <rect x="338" y="213" width="88"  height="202" fill="#CEAA6A"/>
+    <rect x="426" y="255" width="76"  height="160" fill="#DAB878"/>
+    <rect x="502" y="223" width="86"  height="192" fill="#C8A266"/>
+    <rect x="588" y="243" width="72"  height="172" fill="#E1C080"/>
+    <rect x="660" y="267" width="82"  height="148" fill="#D6B474"/>
+    <rect x="742" y="280" width="68"  height="135" fill="#D2AF70"/>
+    <rect x="-2"  y="203" width="94"  height="14" fill="#9B7A4C"/>
+    <rect x="88"  y="235" width="78"  height="14" fill="#AB8752"/>
+    <rect x="162" y="188" width="100" height="14" fill="#967248"/>
+    <rect x="258" y="223" width="82"  height="14" fill="#B28E56"/>
+    <rect x="336" y="201" width="92"  height="14" fill="#9E7B4B"/>
+    <rect x="424" y="243" width="80"  height="14" fill="#A88450"/>
+    <rect x="500" y="211" width="90"  height="14" fill="#9A764A"/>
+    <rect x="586" y="231" width="76"  height="14" fill="#AC8854"/>
+    <rect x="658" y="255" width="86"  height="14" fill="#A4804E"/>
+    <rect x="740" y="268" width="72"  height="14" fill="#A07C4C"/>
+    <rect x="8"  y="229" width="18" height="26" fill="#9EB4D7"/><rect x="32" y="229" width="18" height="26" fill="#9EB4D7"/><rect x="56" y="229" width="18" height="26" fill="#9EB4D7"/>
+    <rect x="8"  y="273" width="18" height="26" fill="#9EB4D7"/><rect x="32" y="273" width="18" height="26" fill="#9EB4D7"/>
+    <rect x="172" y="214" width="18" height="26" fill="#9EB4D7"/><rect x="196" y="214" width="18" height="26" fill="#9EB4D7"/>
+    <rect x="346" y="227" width="18" height="26" fill="#9EB4D7"/><rect x="370" y="227" width="18" height="26" fill="#9EB4D7"/>
+    <polygon points="231,432 305,432 298,450 238,450" fill="#F8F4EC"/>
+    <line x1="272" y1="430" x2="272" y2="334" stroke="#584632" stroke-width="3"/>
+    <polygon points="272,336 272,430 336,394" fill="#F4F0E6"/>
+    <polygon points="272,350 244,400 272,400" fill="#E8E4D8"/>
+    <polygon points="328,432 388,432 382,450 334,450" fill="#F8F4EC"/>
+    <line x1="362" y1="430" x2="362" y2="352" stroke="#584632" stroke-width="3"/>
+    <polygon points="362,354 362,430 414,406" fill="#EEE9DC"/>
+    <polygon points="362,368 338,408 362,408" fill="#E4DFD2"/>
+    <polygon points="416,432 498,432 490,452 424,452" fill="#F8F4EC"/>
+    <line x1="453" y1="430" x2="453" y2="322" stroke="#584632" stroke-width="3"/>
+    <polygon points="453,324 453,430 517,398" fill="#F4F0E6"/>
+    <polygon points="453,340 424,390 453,390" fill="#E8E4D8"/>
+    <polygon points="529,432 595,432 588,450 536,450" fill="#F8F4EC"/>
+    <line x1="566" y1="430" x2="566" y2="344" stroke="#584632" stroke-width="3"/>
+    <polygon points="566,346 566,430 622,402" fill="#F0EBE0"/>
+    <path d="M0,488 Q37,481 75,488 Q112,495 150,488" fill="none" stroke="#4480BC" stroke-width="1" opacity="0.7"/>
+    <path d="M200,498 Q237,491 275,498 Q312,505 350,498" fill="none" stroke="#3E78B4" stroke-width="1" opacity="0.6"/>
+    <path d="M420,486 Q457,479 495,486 Q532,493 570,486" fill="none" stroke="#4480BC" stroke-width="1" opacity="0.6"/>
+  </svg>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="badge">AGENCE INDÉPENDANTE · MARSEILLE &amp; ALENTOURS</div>
+    <h1>VOTRE BIEN,<br><span>NOTRE PASSION.</span></h1>
+    <p class="hero-sub">Tout l'immobilier dans votre région · 15 ans d'expérience</p>
+    <div class="hero-rule"></div>
+    <div class="hero-btns">
+      <a href="#biens" class="btn-prim">Voir nos biens</a>
+      <a href="#cta" class="btn-outl">Estimation gratuite</a>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats">
+  <div class="stats-inner">
+    <div class="stat"><span class="stat-n">15 ans</span><span class="stat-l">d'expérience</span></div>
+    <div class="stat"><span class="stat-n">+500</span><span class="stat-l">biens vendus</span></div>
+    <div class="stat"><span class="stat-n">5</span><span class="stat-l">experts locaux</span></div>
+    <div class="stat"><span class="stat-n">Marseille</span><span class="stat-l">13e arrondissement</span></div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="sec-inner">
+    <div style="text-align:center"><span class="sec-label">NOS SERVICES</span></div>
+    <h2 class="sec-title">Ce que nous faisons pour vous avec passion</h2>
+    <div class="svc-grid">
+      <div class="svc-card">
+        <div class="svc-illus">
+          <svg width="120" height="108" viewBox="0 0 120 108" xmlns="http://www.w3.org/2000/svg">
+            <line x1="4" y1="106" x2="116" y2="106" stroke="#A08458" stroke-width="3"/>
+            <rect x="8" y="52" width="104" height="54" fill="#CAA86C"/>
+            <polygon points="2,52 118,52 60,4" fill="#B26244"/>
+            <path d="M16,14 Q22,10 28,14" fill="none" stroke="#924E36" stroke-width="2"/>
+            <path d="M28,14 Q34,10 40,14" fill="none" stroke="#924E36" stroke-width="2"/>
+            <path d="M40,14 Q46,10 52,14" fill="none" stroke="#924E36" stroke-width="2"/>
+            <path d="M52,14 Q58,10 64,14" fill="none" stroke="#924E36" stroke-width="2"/>
+            <path d="M64,14 Q70,10 76,14" fill="none" stroke="#924E36" stroke-width="2"/>
+            <path d="M10,26 Q18,22 26,26" fill="none" stroke="#924E36" stroke-width="2"/>
+            <path d="M26,26 Q34,22 42,26" fill="none" stroke="#924E36" stroke-width="2"/>
+            <path d="M42,26 Q50,22 58,26" fill="none" stroke="#924E36" stroke-width="2"/>
+            <path d="M58,26 Q66,22 74,26" fill="none" stroke="#924E36" stroke-width="2"/>
+            <path d="M74,26 Q82,22 90,26" fill="none" stroke="#924E36" stroke-width="2"/>
+            <rect x="88" y="18" width="12" height="28" fill="#A05838"/>
+            <rect x="14" y="64" width="10" height="22" fill="#486C94"/><rect x="24" y="64" width="20" height="22" fill="#94B2D4"/>
+            <line x1="34" y1="64" x2="34" y2="86" stroke="#7496B8" stroke-width="1"/><line x1="24" y1="75" x2="44" y2="75" stroke="#7496B8" stroke-width="1"/>
+            <rect x="44" y="64" width="10" height="22" fill="#486C94"/>
+            <rect x="66" y="64" width="10" height="22" fill="#486C94"/><rect x="76" y="64" width="20" height="22" fill="#94B2D4"/>
+            <line x1="86" y1="64" x2="86" y2="86" stroke="#7496B8" stroke-width="1"/><line x1="76" y1="75" x2="96" y2="75" stroke="#7496B8" stroke-width="1"/>
+            <rect x="96" y="64" width="10" height="22" fill="#486C94"/>
+            <rect x="46" y="78" width="28" height="28" fill="#583E26"/>
+            <path d="M46,78 Q60,64 74,78" fill="#583E26"/>
+            <circle cx="62" cy="90" r="3" fill="#C89E3A"/>
+          </svg>
+        </div>
+        <h3>Vente &amp; Achat</h3>
+        <p>Trouvez le bien idéal ou vendez au meilleur prix. Notre réseau local fait la différence.</p>
+      </div>
+      <div class="svc-card">
+        <div class="svc-illus">
+          <svg width="130" height="108" viewBox="0 0 130 108" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2,98 Q15,93 28,98 Q41,103 54,98 Q67,93 80,98 Q93,103 106,98 Q119,93 128,98" fill="none" stroke="#5894C8" stroke-width="2"/>
+            <polygon points="20,86 110,86 102,106 28,106" fill="#F8F4EC"/>
+            <line x1="22" y1="96" x2="108" y2="96" stroke="#D41414" stroke-width="3"/>
+            <rect x="42" y="68" width="36" height="18" fill="#EEE8D8"/>
+            <rect x="48" y="71" width="14" height="11" fill="#94B2D4"/>
+            <line x1="70" y1="86" x2="70" y2="2" stroke="#584632" stroke-width="3"/>
+            <line x1="48" y1="38" x2="88" y2="38" stroke="#584632" stroke-width="2"/>
+            <polygon points="70,4 70,84 128,58" fill="#F4F0E6"/>
+            <polygon points="70,16 28,60 70,60" fill="#EAE5D8"/>
+          </svg>
+        </div>
+        <h3>Location</h3>
+        <p>Gestion locative complète. Appartements, maisons, villas. Sérénité de A à Z.</p>
+      </div>
+      <div class="svc-card">
+        <div class="svc-illus">
+          <svg width="130" height="108" viewBox="0 0 130 108" xmlns="http://www.w3.org/2000/svg">
+            <line x1="4" y1="106" x2="126" y2="106" stroke="#AA8C5A" stroke-width="3"/>
+            <rect x="10" y="26" width="110" height="78" fill="#D2B476"/>
+            <rect x="6" y="14" width="118" height="14" fill="#947048"/>
+            <polygon points="6,14 124,14 118,4 12,4" fill="#806040"/>
+            <path d="M36,4 Q44,0 52,4" fill="#584028"/><rect x="36" y="4" width="16" height="10" fill="#584028"/>
+            <path d="M78,4 Q86,0 94,4" fill="#584028"/><rect x="78" y="4" width="16" height="10" fill="#584028"/>
+            <rect x="14" y="30" width="8" height="20" fill="#4062A0"/><rect x="22" y="30" width="16" height="20" fill="#8AA6CC"/>
+            <line x1="30" y1="30" x2="30" y2="50" stroke="#6A88B0" stroke-width="1"/><rect x="38" y="30" width="8" height="20" fill="#4062A0"/>
+            <rect x="56" y="30" width="8" height="20" fill="#4062A0"/><rect x="64" y="30" width="16" height="20" fill="#8AA6CC"/>
+            <line x1="72" y1="30" x2="72" y2="50" stroke="#6A88B0" stroke-width="1"/><rect x="80" y="30" width="8" height="20" fill="#4062A0"/>
+            <rect x="98" y="30" width="8" height="20" fill="#4062A0"/><rect x="106" y="30" width="16" height="20" fill="#8AA6CC"/>
+            <line x1="114" y1="30" x2="114" y2="50" stroke="#6A88B0" stroke-width="1"/>
+            <rect x="20" y="50" width="30" height="3" fill="#947048"/><rect x="62" y="50" width="30" height="3" fill="#947048"/>
+            <rect x="14" y="58" width="8" height="20" fill="#4062A0"/><rect x="22" y="58" width="16" height="20" fill="#8AA6CC"/>
+            <line x1="30" y1="58" x2="30" y2="78" stroke="#6A88B0" stroke-width="1"/><rect x="38" y="58" width="8" height="20" fill="#4062A0"/>
+            <rect x="56" y="58" width="8" height="20" fill="#4062A0"/><rect x="64" y="58" width="16" height="20" fill="#8AA6CC"/>
+            <line x1="72" y1="58" x2="72" y2="78" stroke="#6A88B0" stroke-width="1"/><rect x="80" y="58" width="8" height="20" fill="#4062A0"/>
+            <rect x="98" y="58" width="8" height="20" fill="#4062A0"/><rect x="106" y="58" width="16" height="20" fill="#8AA6CC"/>
+            <line x1="114" y1="58" x2="114" y2="78" stroke="#6A88B0" stroke-width="1"/>
+            <rect x="20" y="78" width="30" height="3" fill="#947048"/><rect x="62" y="78" width="30" height="3" fill="#947048"/>
+            <rect x="55" y="76" width="20" height="28" fill="#483218"/>
+            <path d="M55,76 Q65,64 75,76" fill="#483218"/>
+            <circle cx="67" cy="88" r="3" fill="#BC9430"/>
+          </svg>
+        </div>
+        <h3>Immobilier Pro</h3>
+        <p>Bureaux, commerces, locaux d'activité. Nous accompagnons les entrepreneurs du territoire.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ENGAGEMENT -->
+<section class="engagement" id="engagement">
+  <div class="eng-inner">
+    <div class="eng-left">
+      <span class="sec-label">ENGAGEMENT SOCIÉTAL</span>
+      <h2>Chaque transaction,<br><span>un sourire de plus.</span></h2>
+      <div class="eng-rule"></div>
+      <p>Chez HomeInvest, nous avons choisi de donner du sens à chaque transaction. Une partie de notre chiffre d'affaires est reversée à l'association Sourire à la Vie, qui accompagne les enfants atteints de cancer et leurs familles.</p>
+      <p class="eng-quote">« Faire de l'immobilier autrement, c'est aussi construire un monde meilleur pour nos enfants. »</p>
+      <p class="eng-attr">— Loïc Salebert, Directeur</p>
+    </div>
+    <div class="eng-divider"></div>
+    <div class="eng-right">
+      <img src="Logo%20principal.png" alt="Sourire à la Vie">
+      <p class="eng-tag">Protéger l'enfance à chaque étape du soin.</p>
+      <p>Association nationale accompagnant les enfants atteints de cancer : activité physique adaptée, soutien psychologique, expéditions thérapeutiques.</p>
+      <a href="https://www.sourirealavie.fr" target="_blank" rel="noopener" class="btn-pill">sourirealavie.fr →</a>
+      <div style="margin-top:20px"><span class="sec-label">Partenaire engagé</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- BIENS -->
+<section class="biens" id="biens">
+  <div class="biens-inner">
+    <div class="biens-hd">
+      <div><span class="sec-label">SÉLECTION</span><h2>Nos biens à la une</h2></div>
+      <a href="#" class="voir-tout">Voir tous les biens →</a>
+    </div>
+    <div class="biens-grid">
+      <div class="bien-card">
+        <div class="bien-photo">
+          <svg viewBox="0 0 408 210" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#B99B69"/><stop offset="100%" stop-color="#917348"/></linearGradient></defs>
+            <rect width="408" height="210" fill="url(#g1)"/>
+            <rect x="74" y="110" width="260" height="100" fill="#5E4830"/>
+            <polygon points="59,110 349,110 204,55" fill="#4C3A25"/>
+            <rect x="104" y="130" width="40" height="65" fill="#7A6040"/><rect x="264" y="130" width="40" height="65" fill="#7A6040"/>
+          </svg>
+          <div class="bien-badge" style="background:#D41414">Coup de cœur</div>
+        </div>
+        <div class="bien-body">
+          <p class="bien-title">Villa provençale</p><p class="bien-loc">Allauch · 13190</p>
+          <hr class="bien-hr"><p class="bien-price">695 000 €</p><p class="bien-det">5 pièces · 180 m²</p>
+        </div>
+      </div>
+      <div class="bien-card">
+        <div class="bien-photo">
+          <svg viewBox="0 0 408 210" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <defs><linearGradient id="g2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#7891AF"/><stop offset="100%" stop-color="#50698C"/></linearGradient></defs>
+            <rect width="408" height="210" fill="url(#g2)"/>
+            <rect x="74" y="110" width="260" height="100" fill="#3A5070"/>
+            <polygon points="59,110 349,110 204,55" fill="#2C3E58"/>
+            <rect x="104" y="130" width="40" height="65" fill="#526888"/><rect x="264" y="130" width="40" height="65" fill="#526888"/>
+          </svg>
+          <div class="bien-badge" style="background:#404040">Exclusivité</div>
+        </div>
+        <div class="bien-body">
+          <p class="bien-title">Appartement vue mer</p><p class="bien-loc">Marseille 8e · 13008</p>
+          <hr class="bien-hr"><p class="bien-price">420 000 €</p><p class="bien-det">4 pièces · 95 m²</p>
+        </div>
+      </div>
+      <div class="bien-card">
+        <div class="bien-photo">
+          <svg viewBox="0 0 408 210" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <defs><linearGradient id="g3" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#9BAA82"/><stop offset="100%" stop-color="#73875A"/></linearGradient></defs>
+            <rect width="408" height="210" fill="url(#g3)"/>
+            <rect x="74" y="110" width="260" height="100" fill="#506040"/>
+            <polygon points="59,110 349,110 204,55" fill="#3E4C30"/>
+            <rect x="104" y="130" width="40" height="65" fill="#688058"/><rect x="264" y="130" width="40" height="65" fill="#688058"/>
+          </svg>
+          <div class="bien-badge" style="background:#288248">Nouveauté</div>
+        </div>
+        <div class="bien-body">
+          <p class="bien-title">Maison de ville</p><p class="bien-loc">Plan-de-Cuques · 13380</p>
+          <hr class="bien-hr"><p class="bien-price">385 000 €</p><p class="bien-det">4 pièces · 130 m²</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- À PROPOS -->
+<section class="apropos" id="apropos">
+  <div class="apropos-inner">
+    <div class="vid-col">
+      <div class="vid-wrap">
+        <div class="vid-halo"></div>
+        <svg class="vid-sil" viewBox="0 0 130 180" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="0,180 130,180 114,110 16,110" fill="#261E1A"/>
+          <rect x="53" y="96" width="24" height="16" fill="#261E1A"/>
+          <ellipse cx="65" cy="80" rx="28" ry="30" fill="#261E1A"/>
+          <line x1="120" y1="10" x2="108" y2="10" stroke="#483C2E" stroke-width="3"/>
+          <line x1="108" y1="10" x2="108" y2="56" stroke="#483C2E" stroke-width="3"/>
+          <rect x="97" y="44" width="22" height="28" fill="#584E3E" rx="8" ry="8"/>
+          <ellipse cx="108" cy="44" rx="8" ry="8" fill="#584E3E"/>
+        </svg>
+        <div class="vid-play"></div>
+        <div class="vid-dur">0:58</div>
+        <div class="vid-prog"><div class="vid-prog-fill"></div></div>
+      </div>
+      <div class="vid-meta">
+        <span class="vid-lbl">Son engagement →</span>
+        <span class="vid-name">Loïc Salebert · Directeur</span>
+      </div>
+    </div>
+    <div class="ap-text">
+      <span class="sec-label">À PROPOS</span>
+      <h2>Une agence à taille<br>humaine.</h2>
+      <p class="ap-lead">Loïc Salebert fonde HomeInvest avec une conviction :</p>
+      <p class="ap-hl">l'immobilier se vit avec des personnes, pas des algorithmes.</p>
+      <p class="ap-body">Depuis 15 ans, notre équipe de 5 experts accompagne vendeurs, acheteurs et locataires sur Marseille et ses alentours.</p>
+      <div class="tags">
+        <span class="tag">Indépendant</span>
+        <span class="tag">Ancré localement</span>
+        <span class="tag">Expert Marseille</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ÉQUIPE -->
+<section class="equipe" id="equipe">
+  <div class="eq-inner">
+    <div class="eq-hd">
+      <span class="sec-label">L'ÉQUIPE</span>
+      <h2>5 experts à votre service</h2>
+    </div>
+    <div class="team-grid">
+      <div class="team-card"><div class="avatar" style="background:#D41414"></div><p class="t-name">Loïc Salebert</p><p class="t-role">Directeur</p><div class="t-dot"></div><p class="t-phone">06 XX XX XX XX</p></div>
+      <div class="team-card"><div class="avatar" style="background:#4B73A0"></div><p class="t-name">Eric Trech</p><p class="t-role">Consultant</p><div class="t-dot"></div><p class="t-phone">06 XX XX XX XX</p></div>
+      <div class="team-card"><div class="avatar" style="background:#55874B"></div><p class="t-name">Danie Invernon</p><p class="t-role">Consultant</p><div class="t-dot"></div><p class="t-phone">06 XX XX XX XX</p></div>
+      <div class="team-card"><div class="avatar" style="background:#8C5078"></div><p class="t-name">Elodie Salebert</p><p class="t-role">Consultante</p><div class="t-dot"></div><p class="t-phone">06 XX XX XX XX</p></div>
+      <div class="team-card"><div class="avatar" style="background:#A07328"></div><p class="t-name">Laurent</p><p class="t-role">Consultant</p><div class="t-dot"></div><p class="t-phone">06 XX XX XX XX</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-band" id="cta">
+  <h2>ESTIMEZ VOTRE BIEN GRATUITEMENT</h2>
+  <p>Réponse rapide · Sans engagement · Par un expert local</p>
+  <a href="mailto:contact@homeinvest.fr" class="btn-cta">Nous contacter →</a>
+</section>
+
+<!-- FOOTER -->
+<footer id="footer">
+  <div class="foot-inner">
+    <div>
+      <div class="foot-logo">
+        <div style="position:relative;width:46px;height:44px;flex-shrink:0">
+          <span style="position:absolute;left:0;top:4px;width:9px;height:36px;background:#fff;display:block"></span>
+          <span style="position:absolute;left:20px;top:4px;width:9px;height:36px;background:#fff;display:block"></span>
+          <span style="position:absolute;left:9px;top:19px;width:11px;height:8px;background:#fff;display:block"></span>
+          <span style="position:absolute;left:35px;top:4px;width:7px;height:36px;background:var(--gray-light);display:block"></span>
+        </div>
+        <div class="logo-text">
+          <span class="logo-name" style="color:#fff">HOMEINVEST</span>
+          <span class="logo-sub">IMMOBILIER</span>
+        </div>
+      </div>
+      <p class="foot-tagline">Votre partenaire immobilier à Marseille</p>
+    </div>
+    <div class="foot-contact">
+      <p>106 Traverse Des Fenêtres Rouges<br>13011 Marseille</p>
+      <strong>06 24 56 23 36</strong>
+      <p>contact@homeinvest.fr</p>
+    </div>
+    <div>
+      <div class="foot-links">
+        <a href="#">Mentions légales</a>
+        <a href="#">Politique de confidentialité</a>
+        <a href="#">RGPD</a>
+      </div>
+      <p class="foot-copy">© 2024 HomeInvest Immobilier</p>
+    </div>
+  </div>
+  <hr class="foot-hr">
+</footer>
+
+<script>
+  const btn  = document.getElementById('hamburger');
+  const menu = document.getElementById('mobile-menu');
+  btn.addEventListener('click', () => menu.classList.toggle('open'));
+  menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => menu.classList.remove('open')));
+</script>
 </body>
 </html>
