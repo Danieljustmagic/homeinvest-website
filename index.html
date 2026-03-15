@@ -20,16 +20,8 @@
     /* NAVBAR */
     .navbar { position: sticky; top: 0; z-index: 100; background: #fff; border-bottom: 1px solid var(--gray-pale); box-shadow: 0 2px 12px rgba(0,0,0,.06); }
     .nav-inner { max-width: 1440px; margin: 0 auto; padding: 0 48px; height: 80px; display: flex; align-items: center; justify-content: space-between; }
-    .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-    .logo-mark { position: relative; width: 46px; height: 44px; flex-shrink: 0; }
-    .logo-mark span { position: absolute; display: block; }
-    .lh1 { left:0; top:4px; width:9px; height:36px; background:var(--red); }
-    .lh2 { left:20px; top:4px; width:9px; height:36px; background:var(--red); }
-    .lhb { left:9px; top:19px; width:11px; height:8px; background:var(--red); }
-    .li  { left:35px; top:4px; width:7px; height:36px; background:var(--gray-light); }
-    .logo-text { display:flex; flex-direction:column; line-height:1.2; }
-    .logo-name { font-family:'Work Sans',sans-serif; font-weight:700; font-size:15px; color:var(--gray-dark); letter-spacing:.02em; }
-    .logo-sub  { font-family:'Work Sans',sans-serif; font-weight:700; font-size:10px; color:var(--red); letter-spacing:.06em; }
+    .logo { display:flex; align-items:center; text-decoration:none; }
+    .logo img { height:52px; width:auto; display:block; }
     nav { display:flex; align-items:center; gap:36px; }
     nav a { font-family:'Work Sans',sans-serif; font-size:14px; color:var(--gray-dark); text-decoration:none; transition:color .2s; }
     nav a:hover { color:var(--red); }
@@ -184,7 +176,8 @@
     /* FOOTER */
     footer { background:var(--gray-dark); padding:48px; }
     .foot-inner { max-width:1440px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr 1fr; gap:48px; }
-    .foot-logo { display:flex; align-items:center; gap:10px; margin-bottom:12px; }
+    .foot-logo { margin-bottom:14px; }
+    .foot-logo img { height:72px; width:72px; border-radius:50%; object-fit:cover; display:block; }
     .foot-tagline { font-family:'Crimson Pro',serif; font-style:italic; font-size:14px; color:var(--gray-light); }
     .foot-contact p { font-size:13px; color:var(--gray-light); line-height:1.9; }
     .foot-contact strong { font-family:'Work Sans',sans-serif; font-weight:700; font-size:17px; color:#fff; display:block; margin:6px 0; }
@@ -251,14 +244,7 @@
 <header class="navbar">
   <div class="nav-inner">
     <a href="#" class="logo">
-      <div class="logo-mark">
-        <span class="lh1"></span><span class="lh2"></span>
-        <span class="lhb"></span><span class="li"></span>
-      </div>
-      <div class="logo-text">
-        <span class="logo-name">HOMEINVEST</span>
-        <span class="logo-sub">IMMOBILIER</span>
-      </div>
+      <img src="Logo_2.png" alt="HomeInvest Immobilier">
     </a>
     <nav>
       <a href="#services">Ventes</a>
@@ -656,16 +642,7 @@
   <div class="foot-inner">
     <div>
       <div class="foot-logo">
-        <div style="position:relative;width:46px;height:44px;flex-shrink:0">
-          <span style="position:absolute;left:0;top:4px;width:9px;height:36px;background:#fff;display:block"></span>
-          <span style="position:absolute;left:20px;top:4px;width:9px;height:36px;background:#fff;display:block"></span>
-          <span style="position:absolute;left:9px;top:19px;width:11px;height:8px;background:#fff;display:block"></span>
-          <span style="position:absolute;left:35px;top:4px;width:7px;height:36px;background:var(--gray-light);display:block"></span>
-        </div>
-        <div class="logo-text">
-          <span class="logo-name" style="color:#fff">HOMEINVEST</span>
-          <span class="logo-sub">IMMOBILIER</span>
-        </div>
+        <img src="logo_1.jpeg" alt="HomeInvest Immobilier">
       </div>
       <p class="foot-tagline">Votre partenaire immobilier à Marseille</p>
     </div>
