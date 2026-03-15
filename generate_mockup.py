@@ -407,57 +407,162 @@ for i, (num, title, desc, tags) in enumerate(svc_data):
     draw.rectangle([cx_c, cy_top, cx_c+CARD_W, cy_bot], outline=GRAY_PALE, width=1)
 
 
-    # ── Icône centrée (outline rouge, style épuré) ──
-    icx  = cx_c + CARD_W // 2   # centre horizontal de la carte
-    iy_i = cy_top + 28           # top de l'icône
+    # ── Illustration Marseillaise centrée ──
+    ICO_H = 110
+    iy_i  = cy_top + 18
+    icx   = cx_c + CARD_W // 2
 
-    if i == 0:  # Maison — outline épuré
-        # Toit
-        draw.polygon([(icx-32, iy_i+30), (icx, iy_i), (icx+32, iy_i+30)],
-                     outline=RED, width=3)
-        # Corps
-        draw.rectangle([icx-26, iy_i+30, icx+26, iy_i+68], outline=RED, width=2)
-        # Porte centrée
-        draw.rectangle([icx-10, iy_i+46, icx+10, iy_i+68], fill=RED)
-        # Fenêtres
-        draw.rectangle([icx-22, iy_i+36, icx-12, iy_i+46], outline=RED, width=2)
-        draw.rectangle([icx+12, iy_i+36, icx+22, iy_i+46], outline=RED, width=2)
+    if i == 0:  # Maison provençale — ocre, volets bleus, tuiles terracotta
+        facade_c  = (202, 168, 108)
+        roof_c    = (178, 98,  68)
+        shutter_c = (72,  108, 148)
+        bx1, bx2  = icx - 52, icx + 52
+        by_wall_top = iy_i + 42
+        by_wall_bot = iy_i + ICO_H
+
+        # Corps façade
+        draw.rectangle([bx1, by_wall_top, bx2, by_wall_bot], fill=facade_c)
+
+        # Toit pentu
+        draw.polygon([
+            (bx1 - 6, by_wall_top), (bx2 + 6, by_wall_top), (icx, iy_i + 4),
+        ], fill=roof_c)
+        # Rangées de tuiles
+        for ti in range(3):
+            ty_tile = iy_i + 12 + ti * 10
+            for tx_tile in range(icx - 44 + ti * 8, icx + 44 - ti * 8, 18):
+                draw.arc([tx_tile, ty_tile, tx_tile + 16, ty_tile + 10], 0, 180,
+                         fill=(148, 72, 48), width=2)
+
         # Cheminée
-        draw.rectangle([icx+14, iy_i+8, icx+22, iy_i+26], fill=RED)
+        draw.rectangle([bx2 - 24, iy_i + 14, bx2 - 12, iy_i + 42], fill=(160, 88, 60))
 
-    elif i == 1:  # Clé — élégante
-        # Anneau
-        draw.ellipse([icx-22, iy_i, icx+22, iy_i+44], outline=RED, width=3)
-        draw.ellipse([icx-10, iy_i+12, icx+10, iy_i+32], outline=RED, width=2)
-        # Tige
-        draw.rectangle([icx-4, iy_i+44, icx+4, iy_i+72], fill=RED)
-        # Dents
-        draw.rectangle([icx+4,  iy_i+52, icx+14, iy_i+60], fill=RED)
-        draw.rectangle([icx+4,  iy_i+63, icx+12, iy_i+70], fill=RED)
+        # Fenêtres avec volets
+        for wx_off in [-30, 16]:
+            wx1, wx2 = icx + wx_off, icx + wx_off + 20
+            wy1, wy2 = by_wall_top + 12, by_wall_top + 36
+            draw.rectangle([wx1 - 10, wy1, wx1 - 1, wy2], fill=shutter_c)
+            draw.rectangle([wx1, wy1, wx2, wy2], fill=(148, 178, 210))
+            draw.line([(wx1, (wy1+wy2)//2), (wx2, (wy1+wy2)//2)], fill=(118, 148, 180), width=1)
+            draw.line([((wx1+wx2)//2, wy1), ((wx1+wx2)//2, wy2)], fill=(118, 148, 180), width=1)
+            draw.rectangle([wx2 + 1, wy1, wx2 + 10, wy2], fill=shutter_c)
 
-    else:  # Immeuble — épuré
-        # Corps principal
-        draw.rectangle([icx-26, iy_i+12, icx+26, iy_i+70], outline=RED, width=2)
-        # Fronton
-        draw.rectangle([icx-30, iy_i+4, icx+30, iy_i+14], fill=RED)
-        # Grille de fenêtres 3×2
-        for _r in range(3):
-            for _c in range(2):
-                draw.rectangle([icx-18+_c*20, iy_i+18+_r*16,
-                                 icx-8+_c*20,  iy_i+30+_r*16],
-                                outline=RED, width=2)
-        # Porte
-        draw.rectangle([icx-8, iy_i+52, icx+8, iy_i+70], fill=RED)
+        # Porte cintrée
+        px1, px2 = icx - 14, icx + 14
+        py1 = by_wall_top + 52
+        draw.rectangle([px1, py1, px2, by_wall_bot], fill=(88, 62, 38))
+        draw.pieslice([px1, py1 - 12, px2, py1 + 4], 0, 180, fill=(88, 62, 38))
+        draw.ellipse([icx - 3, py1 + 24, icx + 3, py1 + 30], fill=(200, 158, 58))
 
-    # ── Titre (bien en dessous de l'icône) ──
-    title_y = cy_top + 102
-    draw.text((cx_c + 28, title_y), title, font=BRICB(21), fill=NAVY)
-    tl_w = tlen(title, BRICB(21))
-    draw.rectangle([cx_c+28, title_y+28, cx_c+28+tl_w, title_y+31], fill=RED)
+        # Sol
+        draw.line([(bx1 - 8, by_wall_bot), (bx2 + 8, by_wall_bot)],
+                  fill=(160, 132, 88), width=3)
 
-    # ── Description (wrap) ──
-    wrap_text(desc, OUTR(14), CARD_W-56,
-              draw_at=True, x=cx_c+28, y=title_y+42, color=GRAY_MED, line_h=23)
+    elif i == 1:  # Voilier du Vieux-Port
+        boat_cx = icx + 4
+        deck_y  = iy_i + ICO_H - 8
+        hull_w  = 88
+
+        # Vagues
+        for wx_wave in range(icx - 68, icx + 62, 28):
+            draw.arc([wx_wave, deck_y + 6, wx_wave + 22, deck_y + 14], 0, 180,
+                     fill=(88, 148, 200), width=2)
+
+        # Coque
+        draw.polygon([
+            (boat_cx - hull_w//2, deck_y),
+            (boat_cx + hull_w//2, deck_y),
+            (boat_cx + hull_w//2 - 10, deck_y + 22),
+            (boat_cx - hull_w//2 + 10, deck_y + 22),
+        ], fill=(248, 244, 236))
+        draw.line([(boat_cx - hull_w//2 + 2, deck_y + 10),
+                   (boat_cx + hull_w//2 - 2, deck_y + 10)], fill=RED, width=3)
+
+        # Cabine
+        draw.rectangle([boat_cx - 20, deck_y - 22, boat_cx + 14, deck_y],
+                       fill=(238, 232, 218))
+        draw.rectangle([boat_cx - 14, deck_y - 18, boat_cx - 4, deck_y - 6],
+                       fill=(148, 178, 210))
+
+        # Mât
+        mast_x   = boat_cx + 6
+        mast_top = iy_i + 2
+        draw.line([(mast_x, deck_y - 2), (mast_x, mast_top)], fill=(88, 70, 50), width=3)
+        # Barre de flèche
+        draw.line([(mast_x - 22, mast_top + 38), (mast_x + 18, mast_top + 38)],
+                  fill=(88, 70, 50), width=2)
+
+        # Grande voile
+        sail_h = deck_y - mast_top
+        draw.polygon([
+            (mast_x, mast_top + 4),
+            (mast_x, deck_y - 4),
+            (mast_x + int(sail_h * 0.65), deck_y - int(sail_h * 0.25)),
+        ], fill=(244, 240, 230))
+
+        # Foc
+        draw.polygon([
+            (mast_x, mast_top + 18),
+            (mast_x - int(sail_h * 0.38), deck_y - int(sail_h * 0.42) + 10),
+            (mast_x, deck_y - int(sail_h * 0.42)),
+        ], fill=(232, 226, 212))
+
+    else:  # Façade Haussmannienne marseillaise
+        fb_x1, fb_x2 = icx - 56, icx + 56
+        fb_top = iy_i + 8
+        fb_bot = iy_i + ICO_H
+        fac_c  = (210, 180, 118)
+        cor_c  = (148, 112, 72)
+        win_c  = (138, 168, 208)
+        sht_c  = (64,  98,  138)
+
+        # Corps
+        draw.rectangle([fb_x1, fb_top + 16, fb_x2, fb_bot], fill=fac_c)
+
+        # Corniche + mansarde
+        draw.rectangle([fb_x1 - 4, fb_top + 4, fb_x2 + 4, fb_top + 18], fill=cor_c)
+        draw.polygon([
+            (fb_x1 - 4, fb_top + 4), (fb_x2 + 4, fb_top + 4),
+            (fb_x2 - 6, fb_top),     (fb_x1 + 6, fb_top),
+        ], fill=(128, 96, 60))
+
+        # Lucarnes
+        for luc_x in [icx - 28, icx + 8]:
+            draw.pieslice([luc_x, fb_top - 8, luc_x + 18, fb_top + 2], 0, 180, fill=(88, 62, 40))
+            draw.rectangle([luc_x, fb_top - 2, luc_x + 18, fb_top + 6], fill=(88, 62, 40))
+
+        # Grille de fenêtres 3 colonnes × 3 rangées
+        for fl in range(3):
+            wy_fl = fb_top + 22 + fl * 28
+            for col_idx in range(3):
+                wx_col = fb_x1 + 10 + col_idx * 36
+                draw.rectangle([wx_col,      wy_fl, wx_col + 7,  wy_fl + 20], fill=sht_c)
+                draw.rectangle([wx_col + 7,  wy_fl, wx_col + 21, wy_fl + 20], fill=win_c)
+                draw.line([(wx_col + 14, wy_fl), (wx_col + 14, wy_fl + 20)],
+                          fill=(108, 138, 178), width=1)
+                draw.rectangle([wx_col + 21, wy_fl, wx_col + 28, wy_fl + 20], fill=sht_c)
+                draw.rectangle([wx_col + 5, wy_fl + 20, wx_col + 23, wy_fl + 23], fill=cor_c)
+
+        # Porte voûtée centrale
+        px1, px2 = icx - 14, icx + 14
+        py1 = fb_bot - 34
+        draw.rectangle([px1, py1, px2, fb_bot], fill=(72, 50, 32))
+        draw.pieslice([px1, py1 - 14, px2, py1 + 4], 0, 180, fill=(72, 50, 32))
+        draw.ellipse([icx - 3, py1 + 14, icx + 3, py1 + 20], fill=(188, 148, 48))
+
+        # Trottoir
+        draw.line([(fb_x1 - 12, fb_bot), (fb_x2 + 12, fb_bot)],
+                  fill=(170, 140, 90), width=3)
+
+    # ── Titre ──
+    title_y = cy_top + 142
+    draw.text((cx_c + 28, title_y), title, font=BRICB(26), fill=NAVY)
+    tl_w = tlen(title, BRICB(26))
+    draw.rectangle([cx_c+28, title_y+34, cx_c+28+tl_w, title_y+37], fill=RED)
+
+    # ── Description ──
+    wrap_text(desc, BRICR(16), CARD_W-56,
+              draw_at=True, x=cx_c+28, y=title_y+50, color=GRAY_MED, line_h=26)
 
 
 y += SERV_H
