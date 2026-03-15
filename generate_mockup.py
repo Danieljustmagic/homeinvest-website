@@ -359,103 +359,121 @@ y += STATS_H
 
 
 # ══════════════════════════════════════════════════════════
-#  4. SERVICES — dark visual section (Scale with Ouss DNA)
+#  4. SERVICES
 # ══════════════════════════════════════════════════════════
-SERV_H  = 520
-NAVY    = (22, 34, 62)    # hero blue — used for typography
-draw.rectangle([0, y, W, y+SERV_H], fill=WHITE)
+SERV_H = 560
+NAVY   = (22, 34, 62)
+
+# Fond crème très léger pour différencier de la stats bar blanche
+draw.rectangle([0, y, W, y+SERV_H], fill=(250, 248, 245))
 draw.line([(0, y+SERV_H), (W, y+SERV_H)], fill=GRAY_PALE, width=1)
 
-# Section label + title
+# Label + titre section
 _lw = tlen("NOS SERVICES", WRKB(12)) + 24
 draw.rectangle([(W-_lw)//2, y+36, (W+_lw)//2, y+62], fill=RED)
 draw.text(((W - tlen("NOS SERVICES", WRKB(12)))//2, y+44),
           "NOS SERVICES", font=WRKB(12), fill=WHITE)
 cx_text("Ce que nous faisons pour vous", CRIB(44), y+70, NAVY)
 
-# Helper: dashed rect border
-def dashed_rect(x1, y1, x2, y2, col, lw=1, dash=9, gap=6):
-    step = dash + gap
-    for _x in range(x1, x2, step):
-        draw.line([(_x, y1), (min(_x+dash, x2), y1)], fill=col, width=lw)
-        draw.line([(_x, y2), (min(_x+dash, x2), y2)], fill=col, width=lw)
-    for _y in range(y1, y2, step):
-        draw.line([(x1, _y), (x1, min(_y+dash, y2))], fill=col, width=lw)
-        draw.line([(x2, _y), (x2, min(_y+dash, y2))], fill=col, width=lw)
-
-# Card layout
+# Mise en page cartes
 CARD_W = 400
 CGAP   = 40
-CMRG   = (W - 3*CARD_W - 2*CGAP) // 2   # 80px
+CMRG   = (W - 3*CARD_W - 2*CGAP) // 2
 
 svc_data = [
-    ("01", "VENTE & ACHAT",
-     "Trouvez le bien idéal ou vendez\nau meilleur prix. Notre réseau\nlocal fait la différence.",
-     ["Résidentiel", "Terrain", "Neuf"], False),
-    ("02", "LOCATION",
-     "Gestion locative complète.\nAppartements, maisons, villas.\nSérénité de A à Z.",
-     ["Longue durée", "Gestion locative"], True),
-    ("03", "IMMOBILIER PRO",
-     "Bureaux, commerces, locaux\nd'activité. Nous accompagnons\nles entrepreneurs du territoire.",
-     ["Bureaux", "Commerces"], False),
+    ("01", "Vente & Achat",
+     "Trouvez le bien idéal ou vendez au meilleur prix. Notre réseau local fait la différence.",
+     ["Résidentiel", "Terrain", "Neuf"]),
+    ("02", "Location",
+     "Gestion locative complète. Appartements, maisons, villas. Sérénité de A à Z.",
+     ["Longue durée", "Gestion locative"]),
+    ("03", "Immobilier Pro",
+     "Bureaux, commerces, locaux d'activité. Nous accompagnons les entrepreneurs du territoire.",
+     ["Bureaux", "Commerces"]),
 ]
 
-for i, (num, title, desc, tags, featured) in enumerate(svc_data):
-    cx_c = CMRG + i * (CARD_W + CGAP)
-    # All cards same height — equal, no hierarchy
-    cy_top, cy_bot = y + 148, y + 490
-    c_bg = (242, 246, 254)   # very light blue-white for all cards
+for i, (num, title, desc, tags) in enumerate(svc_data):
+    cx_c   = CMRG + i * (CARD_W + CGAP)
+    cy_top = y + 148
+    cy_bot = y + 508
 
-    # Card background + red top accent bar
-    draw.rectangle([cx_c, cy_top, cx_c+CARD_W, cy_bot], fill=c_bg)
-    draw.rectangle([cx_c, cy_top, cx_c+CARD_W, cy_top+4], fill=RED)
-    # Navy dashed border
-    dashed_rect(cx_c, cy_top, cx_c+CARD_W, cy_bot, NAVY, lw=1)
+    # Ombre portée
+    draw.rectangle([cx_c+5, cy_top+5, cx_c+CARD_W+5, cy_bot+5], fill=(215, 210, 204))
+    # Fond carte blanc
+    draw.rectangle([cx_c, cy_top, cx_c+CARD_W, cy_bot], fill=WHITE)
+    # Barre rouge en haut (6px)
+    draw.rectangle([cx_c, cy_top, cx_c+CARD_W, cy_top+6], fill=RED)
+    # Bordure fine grise
+    draw.rectangle([cx_c, cy_top, cx_c+CARD_W, cy_bot], outline=GRAY_PALE, width=1)
 
-    # Geometric icon (red, top-left)
-    ix, iy_i = cx_c + 30, cy_top + 28
+    # Numéro fantôme en fond (Scale with Ouss DNA)
+    _nf = BIG(130)
+    _nw = tlen(num, _nf)
+    _ghost_img = Image.new("RGBA", (_nw+10, 135), (0,0,0,0))
+    ImageDraw.Draw(_ghost_img).text((4, 0), num, font=_nf, fill=(235,230,224,255))
+    img.paste(_ghost_img, (cx_c + CARD_W - _nw - 14, cy_bot - 130), _ghost_img)
+    draw = ImageDraw.Draw(img)
 
-    if i == 0:  # House
-        draw.polygon([(ix, iy_i+28), (ix+26, iy_i), (ix+52, iy_i+28)],
+    # ── Icône centrée (outline rouge, style épuré) ──
+    icx  = cx_c + CARD_W // 2   # centre horizontal de la carte
+    iy_i = cy_top + 28           # top de l'icône
+
+    if i == 0:  # Maison — outline épuré
+        # Toit
+        draw.polygon([(icx-32, iy_i+30), (icx, iy_i), (icx+32, iy_i+30)],
                      outline=RED, width=3)
-        draw.rectangle([ix+4, iy_i+28, ix+48, iy_i+62], outline=RED, width=2)
-        draw.rectangle([ix+19, iy_i+42, ix+33, iy_i+62], fill=RED)
-        draw.rectangle([ix+7,  iy_i+32, ix+15, iy_i+40], fill=RED)
-        draw.rectangle([ix+37, iy_i+32, ix+45, iy_i+40], fill=RED)
-        draw.rectangle([ix+36, iy_i+10, ix+43, iy_i+26], fill=RED)
-    elif i == 1:  # Key
-        draw.ellipse([ix+4, iy_i, ix+46, iy_i+42], outline=RED, width=3)
-        draw.ellipse([ix+15, iy_i+11, ix+35, iy_i+31], fill=c_bg)
-        draw.ellipse([ix+19, iy_i+15, ix+31, iy_i+27], outline=RED, width=2)
-        draw.rectangle([ix+22, iy_i+42, ix+28, iy_i+70], fill=RED)
-        draw.rectangle([ix+28, iy_i+50, ix+38, iy_i+57], fill=RED)
-        draw.rectangle([ix+28, iy_i+60, ix+36, iy_i+67], fill=RED)
-    else:  # Building
-        draw.rectangle([ix+10, iy_i+8, ix+42, iy_i+68], outline=RED, width=2)
-        draw.rectangle([ix+4,  iy_i+2, ix+48, iy_i+10], fill=RED)
-        for _row in range(3):
-            for _col in range(2):
-                draw.rectangle([ix+14+_col*14, iy_i+15+_row*16,
-                                 ix+22+_col*14, iy_i+25+_row*16], fill=RED)
-        draw.rectangle([ix+21, iy_i+50, ix+31, iy_i+68], fill=RED)
+        # Corps
+        draw.rectangle([icx-26, iy_i+30, icx+26, iy_i+68], outline=RED, width=2)
+        # Porte centrée
+        draw.rectangle([icx-10, iy_i+46, icx+10, iy_i+68], fill=RED)
+        # Fenêtres
+        draw.rectangle([icx-22, iy_i+36, icx-12, iy_i+46], outline=RED, width=2)
+        draw.rectangle([icx+12, iy_i+36, icx+22, iy_i+46], outline=RED, width=2)
+        # Cheminée
+        draw.rectangle([icx+14, iy_i+8, icx+22, iy_i+26], fill=RED)
 
-    # Title
-    draw.text((cx_c+30, cy_top+82), title, font=BRICB(19), fill=NAVY)
-    draw.line([(cx_c+30, cy_top+108), (cx_c+30+tlen(title, BRICB(19)), cy_top+108)],
-              fill=RED, width=2)
+    elif i == 1:  # Clé — élégante
+        # Anneau
+        draw.ellipse([icx-22, iy_i, icx+22, iy_i+44], outline=RED, width=3)
+        draw.ellipse([icx-10, iy_i+12, icx+10, iy_i+32], outline=RED, width=2)
+        # Tige
+        draw.rectangle([icx-4, iy_i+44, icx+4, iy_i+72], fill=RED)
+        # Dents
+        draw.rectangle([icx+4,  iy_i+52, icx+14, iy_i+60], fill=RED)
+        draw.rectangle([icx+4,  iy_i+63, icx+12, iy_i+70], fill=RED)
 
-    # Description lines
-    _dy = cy_top + 120
-    for _line in desc.split("\n"):
-        draw.text((cx_c+30, _dy), _line, font=OUTR(14), fill=(55, 80, 128))
-        _dy += 24
+    else:  # Immeuble — épuré
+        # Corps principal
+        draw.rectangle([icx-26, iy_i+12, icx+26, iy_i+70], outline=RED, width=2)
+        # Fronton
+        draw.rectangle([icx-30, iy_i+4, icx+30, iy_i+14], fill=RED)
+        # Grille de fenêtres 3×2
+        for _r in range(3):
+            for _c in range(2):
+                draw.rectangle([icx-18+_c*20, iy_i+18+_r*16,
+                                 icx-8+_c*20,  iy_i+30+_r*16],
+                                outline=RED, width=2)
+        # Porte
+        draw.rectangle([icx-8, iy_i+52, icx+8, iy_i+70], fill=RED)
 
-    # Bullet tags (auto-positioned so last tag stays 18px above card bottom)
-    _ty = cy_bot - (len(tags) * 26 + 22)
+    # ── Titre (bien en dessous de l'icône) ──
+    title_y = cy_top + 102
+    draw.text((cx_c + 28, title_y), title, font=BRICB(21), fill=NAVY)
+    tl_w = tlen(title, BRICB(21))
+    draw.rectangle([cx_c+28, title_y+28, cx_c+28+tl_w, title_y+31], fill=RED)
+
+    # ── Description (wrap) ──
+    wrap_text(desc, OUTR(14), CARD_W-56,
+              draw_at=True, x=cx_c+28, y=title_y+42, color=GRAY_MED, line_h=23)
+
+    # ── Tags en bas ──
+    _ty = cy_bot - (len(tags) * 28 + 18)
     for tag in tags:
-        draw.ellipse([cx_c+30, _ty+6, cx_c+37, _ty+13], fill=RED)
-        draw.text((cx_c+46, _ty), tag, font=OUTR(13), fill=(55, 80, 128))
-        _ty += 26
+        _tw2 = tlen(tag, WRKR(12)) + 22
+        draw.rounded_rectangle([cx_c+28, _ty, cx_c+28+_tw2, _ty+22],
+                                radius=11, outline=RED, width=1)
+        draw.text((cx_c+39, _ty+4), tag, font=WRKR(12), fill=NAVY)
+        _ty += 28
 
 y += SERV_H
 
