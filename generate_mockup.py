@@ -797,11 +797,11 @@ label_tag("L'ÉQUIPE", (W - tlen("L'ÉQUIPE", WRKB(12)) - 24)//2, y+40)
 cx_text("5 experts à votre service", CRIB(40), y+72)
 
 team = [
-    ("LS", "Loïc Salebert",   "Directeur",       RED),
-    ("SC", "Sophie Carrel",   "Négociatrice",     (75, 115, 160)),
-    ("MR", "Marc Roux",       "Commercial",       (85, 135, 75)),
-    ("AL", "Amélie Laurent",  "Gestion locative", (140, 80, 120)),
-    ("TB", "Thomas Blanc",    "Estimateur",       (160, 115, 40)),
+    ("LS", "Loïc Salebert",   "Directeur",   RED),
+    ("ET", "Eric Trech",      "Consultant",  (75, 115, 160)),
+    ("DI", "Danie Invernon",  "Consultant",  (85, 135, 75)),
+    ("ES", "Elodie Salebert", "Consultante", (140, 80, 120)),
+    ("L",  "Laurent",         "Consultant",  (160, 115, 40)),
 ]
 
 tw_  = 210
@@ -814,11 +814,15 @@ for i, (ini, name, role, color) in enumerate(team):
 
     draw.rectangle([tcx_, tcy_, tcx_+tw_, tcy_+188], fill=WHITE)
 
-    # Avatar
+    # Avatar + silhouette profil
     av_cx, av_cy = tcx_+tw_//2, tcy_+56
     draw.ellipse([av_cx-36, av_cy-36, av_cx+36, av_cy+36], fill=color)
-    iw_ = tlen(ini, OUTB(20))
-    draw.text((av_cx-iw_//2, av_cy-15), ini, font=OUTB(20), fill=WHITE)
+    # Silhouette — tête + épaules en blanc semi-transparent
+    sil = tuple(min(255, int(c * 0.35 + 175)) for c in color)
+    # Tête
+    draw.ellipse([av_cx-12, av_cy-28, av_cx+12, av_cy-4], fill=sil)
+    # Épaules (ellipse large, bas du cercle)
+    draw.ellipse([av_cx-28, av_cy+2, av_cx+28, av_cy+52], fill=sil)
 
     # Name
     nw_ = tlen(name, OUTB(13))
